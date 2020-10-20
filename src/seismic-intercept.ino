@@ -10,7 +10,6 @@ long interval;
 int ledState = LOW;
 bool dataRecieved;
 
-void onLocationReceived(const char *event, const char *data);
 void onErrorReceived(const char *event, const char *data);
 void handler(const char *topic, const char *data);
 
