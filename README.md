@@ -14,7 +14,8 @@
 9) Select device from the bottom bar in VS Code `xxxxxxxxxxxxxxxxxxxxxxx`
    1)  Should say argon and deviceOS@1.5.2 in addtion to device ID
 10) Connect device to WIFI (note it is connected when breathing light blue / cyan)
-    1)  Run `particle serial wifi` in terminal and follow the instructions
+    1)  Run `particle serial wifi` in terminal and follow the instructions / Alternatively use phone app to setup wifi (easiest)
 11) Select Flash at the top right 
-12) After successfully flashing in a terminal window type `particle serial monitor`
-13) Run the seismic-server in another VS Code window `npm start` 
+12) Connect motor to pin D2 on the Argon
+13) After successfully flashing in a terminal window type `particle serial monitor`
+14) Run the seismic-server in another VS Code window `npm start` 

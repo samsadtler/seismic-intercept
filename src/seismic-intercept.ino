@@ -1,6 +1,6 @@
 
 SerialLogHandler logHandler;
-int vibe = D2;
+int pump = D2;
 int ledIndicator = D7;
 
 float mag;
@@ -22,11 +22,8 @@ void setup()
 
     Serial.begin(9600);
     pinMode(ledIndicator, OUTPUT);
+    pinMode(pump, OUTPUT);
     Serial.write("hello");
-
-    digitalWrite(ledIndicator, HIGH);
-    delay(2000);
-    digitalWrite(ledIndicator, LOW);
 }
 
 void loop()
@@ -60,11 +57,12 @@ int dataParse(String incomingData)
     interval = mag;
     unsigned long currentMillis = millis();
     Serial.printlnf("currentMillis: %f", currentMillis);
-    // analogWrite(vibe, dis);
-    delay(interval);
-    digitalWrite(ledIndicator, dis);
-    // analogWrite(vibe, 255);
-    ledState = HIGH;
+    digitalWrite(pump, HIGH);
+    digitalWrite(ledIndicator, HIGH);
+    delay(mag * 10);
+    digitalWrite(pump, LOW);
+    digitalWrite(ledIndicator, LOW);
+
     Serial.write("vibe off");
     Serial.println();
     return String(magnitude + distance).toFloat();
