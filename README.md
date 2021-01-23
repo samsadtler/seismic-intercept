@@ -29,3 +29,6 @@ get particle token for your user account in terminal run `particle token list`
 2) Run `particle usb setup-done`
 3) This will prevent the Argon from entering setup mode after restart and should fix the issue
 4) More reading [here](https://support.particle.io/hc/en-us/articles/360049403474-Device-Blinking-Dark-Blue) 
+
+##Link Pin Layout
+[Argon Pin Layout](https://docs.particle.io/assets/images/argon/argon-pinout-v1.0.pdf)
