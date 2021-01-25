@@ -1,20 +1,11 @@
-
-SerialLogHandler logHandler;
-int pump = D2;
+int valve = D2;
+int pump = D5;
 int ledIndicator = D7;
 
-float mag;
-float dis;
-unsigned long previousMillis; // will store last time LED was updated
 long interval;
 int ledState = LOW;
-bool dataRecieved;
-
-void onErrorReceived(const char *event, const char *data);
-void handler(const char *topic, const char *data);
 
 int dataParse(String incomingData);
-int vibrationParrtern(int length, int strength);
 
 void setup()
 {
@@ -23,16 +14,7 @@ void setup()
     Serial.begin(9600);
     pinMode(ledIndicator, OUTPUT);
     pinMode(pump, OUTPUT);
-    Serial.write("hello");
-}
-
-void loop()
-{
-}
-
-void handler(const char *topic, const char *data)
-{
-    Serial.println("received " + String(topic) + ": " + String(data));
+    pinMode(valve, OUTPUT);
 }
 
 int dataParse(String incomingData)
@@ -42,28 +24,44 @@ int dataParse(String incomingData)
     int keyIndex = incomingData.lastIndexOf('"');
     int substringIndex = incomingData.indexOf('n');
     int stringLength = incomingData.length();
-    String distance = incomingData.substring(substringIndex + 1, stringLength);
+    String duration = incomingData.substring(substringIndex + 1, stringLength);
     String magnitude = incomingData.substring(keyIndex + 1, substringIndex);
-    float dis = distance.toFloat();
+    float dur = duration.toFloat();
     float mag = magnitude.toFloat();
 
-    Serial.printlnf("split incoming data: %s, %s ", magnitude, distance);
-    Serial.print("slipt string : ");
-    Serial.print(magnitude);
+    Serial.print("split incoming data: \n");
+    Serial.println(magnitude);
     Serial.print("  ---  ");
-    Serial.println(distance);
-    Serial.printlnf("vibration data: %f, %f ", mag, dis);
+    Serial.println(duration);
+    Serial.printlnf("mag and duration data data: %f, %f ", mag, dur);
 
-    interval = mag;
-    unsigned long currentMillis = millis();
-    Serial.printlnf("currentMillis: %f", currentMillis);
+    dataDisplay(dur, mag);
+
+    return String(magnitude + duration).toFloat();
+}
+
+void dataDisplay(int interval, int mag)
+{
+    unsigned long startMillis = millis();
+    digitalWrite(valve, HIGH);
     digitalWrite(pump, HIGH);
     digitalWrite(ledIndicator, HIGH);
-    delay(mag * 10);
+    bool valveOpen = false;
+
+    while (interval >= (millis() - startMillis))
+    {
+        if (mag < (millis() - startMillis))
+        {
+            digitalWrite(valve, LOW);
+            if(!valveOpen){
+                Serial.println("valve open");
+                valveOpen = true;
+            }
+        }
+    }
+
+    digitalWrite(valve, HIGH);
     digitalWrite(pump, LOW);
     digitalWrite(ledIndicator, LOW);
-
-    Serial.write("vibe off");
-    Serial.println();
-    return String(magnitude + distance).toFloat();
+    Serial.println("pump off and valve closed");
 }
