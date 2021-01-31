@@ -1,3 +1,12 @@
+/******************************************************/
+//       THIS IS A GENERATED FILE - DO NOT EDIT       //
+/******************************************************/
+
+#include "Particle.h"
+#line 1 "/Users/Sam/Development/seismic-intercept/src/seismic-intercept.ino"
+void setup();
+void dataDisplay(int interval, int mag);
+#line 1 "/Users/Sam/Development/seismic-intercept/src/seismic-intercept.ino"
 int valve = D2;
 int pump = D5;
 int ledIndicator = D7;
