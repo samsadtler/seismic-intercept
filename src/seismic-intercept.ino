@@ -33,7 +33,6 @@ void loop()
         if (startMillis == 0 && processing != true)
         {
             startMillis = millis();
-            Serial.println("Reset Start");
         }
 
         if ((millis() - startMillis) <= magintudes[count])
@@ -82,9 +81,10 @@ bool removeDisplay(float array[], int counter)
     float interval = array[counter];
     unsigned long start = millis();
     Serial.println("release start");
-    while (interval * 2 >= millis() - start)
+    while (interval * 2.5 >= millis() - start)
     {
-        analogWrite(valve, 230, 10);
+        digitalWrite(valve, LOW);
+        // analogWrite(valve, 230, 10);
     };
 
     digitalWrite(valve, HIGH);
