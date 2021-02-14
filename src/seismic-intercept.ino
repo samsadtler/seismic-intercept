@@ -84,7 +84,7 @@ bool removeDisplay(float array[], int counter)
     Serial.println("release start");
     while (interval * 2 >= millis() - start)
     {
-        analogWrite(valve, 230, 5);
+        analogWrite(valve, 230, 10);
     };
 
     digitalWrite(valve, HIGH);
