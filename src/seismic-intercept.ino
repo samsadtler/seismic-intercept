@@ -1,3 +1,6 @@
+PRODUCT_ID(12296);
+PRODUCT_VERSION(1);
+
 int valve = D2;
 int pump = D5;
 int pump2 = D3;
@@ -15,19 +18,18 @@ int dataParse(String incomingData);
 
 void setup()
 {
-    Particle.function("data", dataParse);
+    Particle.function("data", dataParse); //initialize function to recieve data
 
     Serial.begin(9600);
-    pinMode(ledIndicator, OUTPUT);
-    pinMode(pump, OUTPUT);
-    pinMode(pump2, OUTPUT);
-    pinMode(valve, OUTPUT);
+    pinMode(ledIndicator, OUTPUT); // led on particle for tests only
+    pinMode(pump, OUTPUT);         // pump 1
+    pinMode(pump2, OUTPUT);        // pump 2
+    pinMode(valve, OUTPUT);        // valve 1 && 2
 
-    digitalWrite(valve, HIGH);
+    digitalWrite(valve, HIGH); // close valves
 }
 void loop()
 {
-
     if (count < 20)
     {
         if (startMillis == 0 && processing != true)
@@ -53,7 +55,7 @@ void loop()
             digitalWrite(pump2, pumpState);
             digitalWrite(ledIndicator, pumpState);
 
-            processing = removeDisplay(magintudes, count);
+            processing = removeDisplay(magintudes, count); 
         }
     };
 }
@@ -76,15 +78,16 @@ void loop()
 //     }
 // }
 
-bool removeDisplay(float array[], int counter)
+// Deflate / open valve. the rate should be controlled by manual valve or tube length
+bool removeDisplay(float array[], int counter) 
 {
     float interval = array[counter];
     unsigned long start = millis();
     Serial.println("release start");
-    while (interval * 2.5 >= millis() - start)
+    // interval is .5 X the inflation time
+    while (interval * .5 >= millis() - start)
     {
         digitalWrite(valve, LOW);
-        // analogWrite(valve, 230, 10);
     };
 
     digitalWrite(valve, HIGH);
@@ -121,7 +124,7 @@ int arrayAdder(float value, float array[], int counter)
 
 int arrayRemover(float array[], int counter)
 {
-    Serial.printlnf("Mag value to remove %f ", array[counter]);
+    Serial.printlnf("Mag value to remove from array buffer %f ", array[counter]);
 
     // removeDisplay(array[counter]);
     array[counter] = 0;
